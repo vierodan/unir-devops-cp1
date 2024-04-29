@@ -10,10 +10,8 @@ pipeline {
       }
       stage('Unit Tests'){
          steps{
-            bat ...
-               SET PYTHONPATH=%WORKSPACE%
-               pytest test\\unit
-            ...
+            bat 'SET PYTHONPATH=%WORKSPACE%'
+            bat 'pytest test\\unit'
          }
       }
    }
