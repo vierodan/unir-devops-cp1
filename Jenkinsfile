@@ -11,7 +11,7 @@ pipeline {
       stage('Unit Tests'){
          steps{
             bat 'SET PYTHONPATH=%WORKSPACE%'
-            bat 'pytest test\\unit'
+            bat 'python -m pytest test\\unit'
          }
       }
    }
