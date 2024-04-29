@@ -1,10 +1,19 @@
 pipeline {
    agent any
    stages {
-      stage('Get Source Code') {
+      stage('Mock Build') {
          steps {
-            //get source code from git repository
-            git 'https://github.com/vierodan/unir-devops-cp1A.git'
+            echo 'Eyyy this is Python is not necessary to compile anything'
+            echo WORKSPACE
+            bat 'dir'
+         }
+      }
+      stage('Unit Tests'){
+         steps{
+            bat ...
+               SET PYTHONPATH=%WORKSPACE%
+               pytest test\\unit
+            ...
          }
       }
    }
