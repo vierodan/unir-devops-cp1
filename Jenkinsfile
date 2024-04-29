@@ -1,13 +1,10 @@
 pipeline {
     agent any
-
      stages {
-
-        stage('Build') {
+        stage('GetSource Code') {
            steps {
-              echo 'Eyyy, esto es Python. No hay que compilar nada!!!'
-	          echo WORKSPACE
-              cmd dir
+            //get source code from git repository
+            git https://github.com/vierodan/unir-devops-cp1A.git
            }
         }
      }
