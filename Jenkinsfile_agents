@@ -33,6 +33,7 @@ pipeline {
 						pytest --junitxml=result-unit.xml test\\unit
 					'''
 				}
+                stash includes: '*result*.xml', name: 'results_agent2'
 			}
 		}
 		stage('Run Flask and Wiremok') {
@@ -57,10 +58,13 @@ pipeline {
 						pytest --junitxml=result-rest.xml test\\rest
 					'''
 				}
+                stash includes: '*result*.xml', name: 'results_agent3'
 			}
 		}
         stage('Results') {
             steps {
+                unstash 'results_agent2'
+                unstash 'results_agent3'
                 junit 'result*.xml'
                 echo 'Finish'
             }
