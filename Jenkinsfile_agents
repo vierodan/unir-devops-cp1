@@ -33,8 +33,12 @@ pipeline {
 						pytest --junitxml=result-unit.xml test\\unit
 					'''
 				}
-                stash includes: '*result*.xml', name: 'results_agent2'
 			}
+            post{
+                always{
+                    stash includes: '*result*.xml', name: 'results_agent2'
+                }
+            }
 		}
 		stage('Run Flask and Wiremok') {
 			agent {
@@ -45,7 +49,7 @@ pipeline {
 				bat '''
 					hostname
 					whoami
-					echo env.WORKSPACE
+					echo %WORKSPACE%
 				'''
 				catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
 					bat '''
@@ -58,8 +62,12 @@ pipeline {
 						pytest --junitxml=result-rest.xml test\\rest
 					'''
 				}
-                stash includes: '*result*.xml', name: 'results_agent3'
 			}
+            post{
+                always{
+                    stash includes: '*result*.xml', name: 'results_agent3'
+                }
+            }
 		}
         stage('Results') {
             steps {
