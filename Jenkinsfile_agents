@@ -10,8 +10,10 @@ pipeline {
 	    stage('Mock Build') {
             steps {
                 echo 'Eyyy this is Python is not necessary to compile anything'
-                echo env.WORKSPACE
-                bat 'dir'
+                bat '''
+                    echo %WORKSPACE%
+                    dir
+                '''
             }
         }
 		stage('Unit Tests') {
@@ -23,7 +25,7 @@ pipeline {
 				bat '''
 					hostname
 					whoami
-					echo env.WORKSPACE
+					echo %WORKSPACE%
 				'''
 				catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
 					bat '''
