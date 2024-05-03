@@ -20,7 +20,7 @@ pipeline {
                         }
                     }
                 }
-                stage('Run Flask and Wiremok') {
+                stage('Run Flask and Wiremock') {
                     steps {
                         catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
                             bat '''
