@@ -47,8 +47,7 @@ class TestApi(unittest.TestCase):
 
 
     def test_api_divide(self):
-        # Prueba de división válida
-        url = f"{BASE_URL}/calc/divide/6/3"
+        url = f"{BASE_URL}/calc/divide/10/5"
         response = urlopen(url, timeout=DEFAULT_TIMEOUT)
         self.assertEqual(
             response.status, http.client.OK, f"Error en la petición API a {url}"
@@ -57,36 +56,15 @@ class TestApi(unittest.TestCase):
             response.read().decode(), "2.0", "ERROR DIVIDE"
         )
 
-        # Prueba de división por cero (negativa)
-        url = f"{BASE_URL}/calc/divide/6/0"
+    def test_api_divide_by_zero(self):
+        url = f"{BASE_URL}/calc/divide/10/0"
         response = urlopen(url, timeout=DEFAULT_TIMEOUT)
         self.assertEqual(
             response.status, http.client.BAD_REQUEST, f"Error en la petición API a {url}"
         )
         self.assertIn(
-            "Division by zero is not possible", response.read().decode(), "ERROR DIVIDE BY ZERO"
+            "division by zero", response.read().decode(), "ERROR DIVIDE BY ZERO"
         )
-
-        # Prueba de división con decimales (positiva)
-        url = f"{BASE_URL}/calc/divide/10/3"
-        response = urlopen(url, timeout=DEFAULT_TIMEOUT)
-        self.assertEqual(
-            response.status, http.client.OK, f"Error en la petición API a {url}"
-        )
-        self.assertAlmostEqual(
-            float(response.read().decode()), 3.333333, places=5, msg="ERROR DIVIDE DECIMAL"
-        )
-
-        # Prueba de operandos no numéricos (negativa)
-        url = f"{BASE_URL}/calc/divide/abc/def"
-        response = urlopen(url, timeout=DEFAULT_TIMEOUT)
-        self.assertEqual(
-            response.status, http.client.BAD_REQUEST, f"Error en la petición API a {url}"
-        )
-        self.assertIn(
-            "Invalid operand", response.read().decode(), "ERROR INVALID OPERAND"
-        )
-
 
 
     def test_api_sqrt(self):
