@@ -43,14 +43,20 @@ def multiply(op_1, op_2):
     
 
 
+from flask import jsonify
+
 @api_application.route("/calc/divide/<op_1>/<op_2>", methods=["GET"])
 def divide(op_1, op_2):
     try:
         num_1, num_2 = util.convert_to_number(op_1), util.convert_to_number(op_2)
         if num_2 == 0:
             raise ZeroDivisionError("division by zero")
-        return ("{}".format(CALCULATOR.divide(num_1, num_2)), http.client.OK, HEADERS)
+        result = CALCULATOR.divide(num_1, num_2)
+        return jsonify(result), http.client.OK, HEADERS
     except TypeError as e:
-        return (str(e), http.client.BAD_REQUEST, HEADERS)
+        return jsonify({"error": str(e)}), http.client.BAD_REQUEST, HEADERS
+    except ZeroDivisionError as e:
+        return jsonify({"error": str(e)}), http.client.BAD_REQUEST, HEADERS
+
 
 
