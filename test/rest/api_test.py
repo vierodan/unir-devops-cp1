@@ -26,7 +26,7 @@ class TestApi(unittest.TestCase):
         )
 
     def test_api_substract(self):
-        url = f"{BASE_URL}/calc/subtract/5/3"
+        url = f"{BASE_URL}/calc/substract/5/3"
         response = urlopen(url, timeout=DEFAULT_TIMEOUT)
         self.assertEqual(
             response.status, http.client.OK, f"Error en la petición API a {url}"
