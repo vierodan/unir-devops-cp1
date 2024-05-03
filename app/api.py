@@ -1,5 +1,7 @@
 import http.client
+import json
 
+from flask import Response
 from flask import Flask
 
 from app import util
@@ -40,10 +42,6 @@ def multiply(op_1, op_2):
         return ("{}".format(CALCULATOR.multiply(num_1, num_2)), http.client.OK, HEADERS)
     except TypeError as e:
         return (str(e), http.client.BAD_REQUEST, HEADERS)
-    
-
-
-from flask import jsonify
 
 @api_application.route("/calc/divide/<op_1>/<op_2>", methods=["GET"])
 def divide(op_1, op_2):
@@ -52,11 +50,17 @@ def divide(op_1, op_2):
         if num_2 == 0:
             raise ZeroDivisionError("division by zero")
         result = CALCULATOR.divide(num_1, num_2)
-        return jsonify(result), http.client.OK, HEADERS
+        response_body = json.dumps(result)
+        return Response(response_body, status=http.client.OK, headers=HEADERS, content_type='application/json')
     except TypeError as e:
-        return jsonify({"error": str(e)}), http.client.BAD_REQUEST, HEADERS
+        error_message = {"error": str(e)}
+        response_body = json.dumps(error_message)
+        return Response(response_body, status=http.client.BAD_REQUEST, headers=HEADERS, content_type='application/json')
     except ZeroDivisionError as e:
-        return jsonify({"error": str(e)}), http.client.BAD_REQUEST, HEADERS
+        error_message = {"error": str(e)}
+        response_body = json.dumps(error_message)
+        return Response(response_body, status=http.client.BAD_REQUEST, headers=HEADERS, content_type='application/json')
+
 
 
 
