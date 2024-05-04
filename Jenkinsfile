@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'agt1'
+    }
     stages {
         stage('Mock Build') {
             steps {
